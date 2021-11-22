@@ -34,9 +34,34 @@ class Deck():
         random.shuffle(self.sve_karte)
 
     def podijeli_kartu(self):
-        self.sve_karte.pop()
+        return self.sve_karte.pop()
 
 
-spil = Deck()
-spil.promijesaj()
-print(spil.sve_karte[45])
+class Hand():
+    def __init__(self):
+        self.karte = []
+        self.value = 0
+        self.aces = 0
+
+    def dodaj_kartu(self, karta):
+        self.karte.append(karta)
+        self.value += values[karta.rank]
+        if karta.rank == 'As':
+            self.aces += 1
+
+    def adjust_for_ace(self):
+        while self.value > 21 and self.aces:
+            self.value -= 10
+            self.aces -= 1
+
+
+class Chips():
+    def __init__(self):
+        self.total = 100
+        self.bet = 0
+
+    def win_bet(self):
+        self.total += self.bet
+
+    def lose_bet(self):
+        self.total -= self.bet
