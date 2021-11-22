@@ -56,8 +56,8 @@ class Hand():
 
 
 class Chips():
-    def __init__(self):
-        self.total = 100
+    def __init__(self, total=100):
+        self.total = total
         self.bet = 0
 
     def win_bet(self):
@@ -65,3 +65,46 @@ class Chips():
 
     def lose_bet(self):
         self.total -= self.bet
+
+
+def take_bet(chips):
+    while True:
+        try:
+            chips.bet = int(input('Koliko ćete novca uloziti? '))
+        except:
+            print('Molimo upišite broj.')
+        else:
+            if chips.bet > chips.total:
+                print('Nemate dovoljno novca!. Imate {} KM'.format(chips.total))
+            else:
+                break
+
+
+def hit(deck, hand):
+    karta = deck.podijeli_kartu()
+    hand.dodaj_kartu(karta)
+    hand.adjust_for_ace()
+
+
+def hit_or_stand(deck, hand):
+    global playing
+
+    while True:
+        x = input('Uzmi dodatnu kartu ili ne ? (da,ne)')
+
+        if x == 'da':
+            hit(deck, hand)
+        elif x == 'ne':
+            print('Igrač čeka djelitelja.')
+            playing = False
+        else:
+            print('Ukucajte da ili ne.')
+            continue
+        break
+
+
+def prikazi_neke_karte(igrac, djelitelj):
+    pass
+
+
+def prikazi_sve_karte(igrac)
