@@ -67,15 +67,15 @@ class Chips():
         self.total -= self.bet
 
 
-def take_bet(chips):
+def take_bet(novac):
     while True:
         try:
-            chips.bet = int(input('Koliko ćete novca uloziti? '))
+            novac.bet = int(input('Koliko ćete novca uloziti? '))
         except:
             print('Molimo upišite broj.')
         else:
-            if chips.bet > chips.total:
-                print('Nemate dovoljno novca!. Imate {} KM'.format(chips.total))
+            if novac.bet > novac.total:
+                print('Nemate dovoljno novca!. Imate {} KM'.format(novac.total))
             else:
                 break
 
@@ -151,3 +151,69 @@ def djelitelj_pobijedio(igrac, djelitelj, novac):
 
 def nerijeseno(igrac, djelitelj):
     print('NERIJEŠENO!')
+
+
+while True:
+
+    print('Igrajmo blackjack!')
+
+    spil = Deck()
+    spil.promijesaj()
+
+    # Karte u igrača
+    igrac = Hand()
+    igrac.dodaj_kartu(spil.podijeli_kartu())
+    igrac.dodaj_kartu(spil.podijeli_kartu())
+
+    # Karte u djelitelja
+    djelitelj = Hand()
+    djelitelj.dodaj_kartu(spil.podijeli_kartu())
+    djelitelj.dodaj_kartu(spil.podijeli_kartu())
+
+    # Novac u igrača, default je 100
+    novac = Chips()
+
+    # Opklada
+    take_bet(novac)
+
+    # Prikazi 2 karte od igrača i jednu od djelitelja
+    prikazi_neke_karte(igrac, djelitelj)
+
+    while playing:
+        # upit za igrača da li da uzme još jednu kartu ili ne
+        hit_or_stand(spil, igrac)
+        # Prikaz karti igrača i djelitelja
+        prikazi_neke_karte(igrac, djelitelj)
+
+        # Igrač izgubio rundu
+        if(igrac.value > 21):
+            igrac_izgubio(igrac, djelitelj, novac)
+            break
+
+     # ako igrač nije izgubio rundu, djelitelj vuče sebi jednu kartu ako je manje od 17
+    if(igrac.value <= 21):
+        while djelitelj.value < 17:
+            hit(spil, djelitelj)
+
+        # prikazi sve karte
+        prikazi_sve_karte(igrac, djelitelj)
+
+        # razliciti scenariji
+        if djelitelj.value > 21:
+            djelitelj_izgubio(igrac, djelitelj, novac)
+        elif djelitelj.value > igrac.value:
+            djelitelj_pobijedio(igrac, djelitelj, novac)
+        elif igrac.value > djelitelj.value:
+            igrac_pobijedio(igrac, djelitelj, novac)
+        else:
+            nerijeseno(igrac, djelitelj)
+
+    print(f'\n Igrač ima trenutno {novac.total} KM.')
+
+    nova_ruka = input('Želite igrati novu rundu ? da,ne')
+    if nova_ruka == 'da':
+        playing = True
+        continue
+    else:
+        print('Hvala što ste igrali. :)')
+        break
