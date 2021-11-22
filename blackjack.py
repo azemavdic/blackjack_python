@@ -104,7 +104,50 @@ def hit_or_stand(deck, hand):
 
 
 def prikazi_neke_karte(igrac, djelitelj):
-    pass
+
+    print('\n Karte djelitelja:')
+    print('Prva karta skrivena')
+    print(djelitelj.karte[1])
+
+    print('\n Karte igrača:')
+    for karta in igrac.karte:
+        print(karta)
 
 
-def prikazi_sve_karte(igrac)
+def prikazi_sve_karte(igrac, djelitelj):
+
+    print('\n Karte djelitelja:')
+    for karta in djelitelj.karte:
+        print(karta)
+
+    print(f'Vrijednost karti djelitelja: {djelitelj.value}')
+
+    print('\n Karte igrača:')
+    for karta in igrac.karte:
+        print(karta)
+
+    print(f'Vrijednost karti igrača: {igrac.value}')
+
+
+def igrac_izgubio(igrac, djelitelj, novac):
+    print('Igrač izgubio.')
+    novac.lose_bet()
+
+
+def igrac_pobijedio(igrac, djelitelj, novac):
+    print('Igrač pobijedio.')
+    novac.win_bet()
+
+
+def djelitelj_izgubio(igrac, djelitelj, novac):
+    print('Djelitelj Izgubio.')
+    novac.win_bet()
+
+
+def djelitelj_pobijedio(igrac, djelitelj, novac):
+    print('Djelitelj pobijedio.')
+    novac.lose_bet()
+
+
+def nerijeseno(igrac, djelitelj):
+    print('NERIJEŠENO!')
